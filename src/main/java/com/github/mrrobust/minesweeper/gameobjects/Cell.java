@@ -1,8 +1,12 @@
 package com.github.mrrobust.minesweeper.gameobjects;
 
+import com.github.mrrobust.gameframework.ObjectDisplay;
 import com.github.mrrobust.gameframework.GameObject;
 
-public class Cell extends GameObject {
+import java.awt.*;
+
+public class Cell extends GameObject{
+
     protected GameObject content;
 
     public Cell() {}
@@ -17,4 +21,5 @@ public class Cell extends GameObject {
     public void PutContent(GameObject payload) {
         content = payload;
     }
+
 }
