@@ -10,9 +10,9 @@ public abstract class UserInterface extends JPanel {
 
     protected Game game;
 
-    private ArrayList<ObjectDisplay> displayBatch;
+    private ArrayList<Displayable> displayBatch;
 
-    public void PutDisplayBatch(ArrayList<ObjectDisplay> displayBatch) {
+    public void PutDisplayBatch(ArrayList<Displayable> displayBatch) {
         this.displayBatch = displayBatch;
     }
 
@@ -30,9 +30,9 @@ public abstract class UserInterface extends JPanel {
 
         super.paintComponent(g);
 
-        for (ObjectDisplay d : displayBatch) {
+        for (Displayable d : displayBatch) {
             Graphics g2 = g.create();
-            d.Display(g);
+            d.Display(null, g);
             g2.dispose();
         }
 

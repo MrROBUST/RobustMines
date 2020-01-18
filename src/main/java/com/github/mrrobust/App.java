@@ -20,7 +20,7 @@ public class App extends JFrame {
 
     private void initUI() {
 
-        add(game.GetComponent());
+        add(game.getUserInterface());
 
         setResizable(false);
         pack();

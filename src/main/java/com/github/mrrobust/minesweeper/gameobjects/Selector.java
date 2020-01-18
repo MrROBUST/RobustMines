@@ -1,17 +1,16 @@
 package com.github.mrrobust.minesweeper.gameobjects;
 
+import com.github.mrrobust.gameframework.Displayable;
 import com.github.mrrobust.gameframework.Location;
-import com.github.mrrobust.gameframework.ObjectDisplay;
 
 import java.awt.*;
 
-public class Selector {
+public class Selector implements Displayable {
 
-    private Location location;
+    public Location location;
 
     {
         location = new Location(-1, -1);
-        display = new Display();
     }
 
     public void setLocation(Location location) {
@@ -22,44 +21,24 @@ public class Selector {
         return location;
     }
 
-    public static class DisplayData {
+    public class SelectorDisplay implements Displayable {
 
-        protected static int iconSize = 24;
-        protected static Image image;
-
-        static {
-            image = ObjectDisplay.getImage("/img/selector.png");
-        }
-
-        public static int getIconSize() {
-            return iconSize;
-        }
-
-        public static Image getImage() {
-            return image;
-        }
-
-    }
-
-    public class Display extends ObjectDisplay {
+        protected Image image = Displayable.LoadImage("/img/selector.png");
+        protected int imageSize = Math.max(image.getWidth(null), image.getHeight(null));
 
         @Override
-        public void Display(Graphics g) {
-
-            g.drawImage(
-                    DisplayData.image,
-                    (location.x() *  DisplayData.iconSize),
-                    (location.y() *  DisplayData.iconSize),
+        public void Display(Location location, Graphics g) {
+            g.drawImage(image,
+                    (getLocation().x() *  imageSize),
+                    (getLocation().y() *  imageSize),
                     null);
-
         }
-
     }
 
-    private Display display;
+    private SelectorDisplay display = new SelectorDisplay();
 
-    public Display getDisplay() {
-        return display;
+    @Override
+    public void Display(Location location, Graphics g) {
+        display.Display(location, g);
     }
-
 }

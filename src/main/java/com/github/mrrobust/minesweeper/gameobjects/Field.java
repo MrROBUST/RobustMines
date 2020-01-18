@@ -1,57 +1,50 @@
 package com.github.mrrobust.minesweeper.gameobjects;
 
-import com.github.mrrobust.gameframework.Location;
-import com.github.mrrobust.gameframework.ObjectDisplay;
+import com.github.mrrobust.gameframework.Displayable;
 import com.github.mrrobust.gameframework.GameObject;
+import com.github.mrrobust.gameframework.Location;
 
 import java.awt.*;
 
-public class Field extends GameObject {
+public class Field extends GameObject implements Displayable {
 
-    private MineSweeperSetup setup;
-    private Cell[][] cells;
+    public MineSweeperSetup setup;
+    public Cell[][] cells;
+    public Flag[][] flags;
 
     public Field(MineSweeperSetup setup) {
         this.setup = setup;
 
         cells = new Cell[setup.GetRows()][setup.GetColons()];
+        flags = new Flag[setup.GetRows()][setup.GetColons()];
 
-        display = new Display();
-    }
-
-    private static class DisplayData {
-
-        public static int iconSize = 24;
-        public static Image icon;
-
-        static {
-            icon = ObjectDisplay.getImage("/img/field.png");
+        for (int cy = 0; cy < setup.GetRows(); ++cy) {
+            for (int cx = 0; cx < setup.GetColons(); ++cx) {
+                cells[cx][cy] = new Cell();
+            }
         }
-
     }
 
-    public class Display extends ObjectDisplay {
+    public class FieldDisplay implements Displayable {
+
+        Image image = Displayable.LoadImage("/img/field.png");
+        int imageSize = Math.max(image.getWidth(null), image.getHeight(null));
 
         @Override
-        public void Display(Graphics g) {
-
+        public void Display(Location location, Graphics g) {
             for (int cy = 0; cy < setup.GetRows(); ++cy) {
                 for (int cx = 0; cx < setup.GetColons(); ++cx) {
-                    g.drawImage(
-                            DisplayData.icon,
-                            (cx *  DisplayData.iconSize),
-                            (cy *  DisplayData.iconSize),
-                            null);
+                    cells[cx][cy].Display(new Location(cx, cy), g);
                 }
             }
-
         }
     }
 
-    private Display display;
+    private FieldDisplay display = new FieldDisplay();
 
-    public Display getDisplay() {
-        return display;
+    @Override
+    public void Display(Location location, Graphics g) {
+        display.Display(location, g);
     }
 
 }

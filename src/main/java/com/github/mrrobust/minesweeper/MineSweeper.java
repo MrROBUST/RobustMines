@@ -1,11 +1,10 @@
 package com.github.mrrobust.minesweeper;
 
-import com.github.mrrobust.gameframework.ObjectDisplay;
+import com.github.mrrobust.gameframework.Displayable;
 import com.github.mrrobust.gameframework.Game;
-import com.github.mrrobust.minesweeper.gameobjects.Field;
-import com.github.mrrobust.minesweeper.gameobjects.MineSweeperSetup;
-import com.github.mrrobust.minesweeper.gameobjects.MineBoard;
-import com.github.mrrobust.minesweeper.gameobjects.Selector;
+import com.github.mrrobust.minesweeper.gameobjects.*;
+
+import java.util.ArrayList;
 
 public class MineSweeper extends Game {
 
@@ -20,17 +19,19 @@ public class MineSweeper extends Game {
     }
 
     private Field field;
-    public ObjectDisplay GetFieldDisplay() { return field.getDisplay(); }
-
     public Selector selector;
-    public ObjectDisplay GetSelectorDisplay() { return selector.getDisplay(); }
 
     public MineSweeper(int colons, int rows, int mines) {
 
         setup = new MineSweeperSetup(colons, rows, mines);
         field = new Field(setup);
         selector = new Selector();
-        component = new MineBoard(this);
+        userInterface = new MineSweeperUI(this);
+
+        ArrayList<Displayable> displays = new ArrayList<Displayable>();
+        displays.add(field);
+        displays.add(selector);
+        ((MineSweeperUI)userInterface).PutDisplayBatch(displays);
 
     }
 

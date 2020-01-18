@@ -4,10 +4,10 @@ import javax.swing.*;
 
 public abstract class Game {
 
-    protected JComponent component;
+    protected JComponent userInterface;
 
-    public JComponent GetComponent() {
-        return component;
+    public JComponent getUserInterface() {
+        return userInterface;
     }
 
     protected String title;
