@@ -25,7 +25,7 @@ public class Field extends GameObject implements Displayable {
     }
 
     private static int getRandomNumberInRange(int min, int max) {
-        return (int)(Math.random() * ((max - min) + 1)) + min;
+        return (int) (Math.random() * ((max - min) + 1)) + min;
     }
 
     protected void InitializeField() {
@@ -60,15 +60,28 @@ public class Field extends GameObject implements Displayable {
             memo.get(last_cell).content = new Mine();
     }
 
+    Boolean notInBounds(Location loc) {
+        return
+                loc.x() < 0 ||
+                        loc.y() < 0 ||
+                        loc.x() >= setup.GetColons() ||
+                        loc.y() >= setup.GetRows();
+    }
+
     Cell getCell(Location loc) {
+        if (notInBounds(loc))
+            return null;
         return cells[loc.x()][loc.y()];
     }
 
+    Flag getFlag(Location loc) {
+        if (notInBounds(loc))
+            return null;
+        return flags[loc.x()][loc.y()];
+    }
+
     GameObject getCellContent(Location loc) {
-        if (loc.x() < 0 ||
-                loc.y() < 0 ||
-                loc.x() >= setup.GetColons() ||
-                loc.y() >= setup.GetRows())
+        if (notInBounds(loc))
             return null;
         return getCell(loc).content;
     }
@@ -77,18 +90,18 @@ public class Field extends GameObject implements Displayable {
         return cell.content;
     }
 
-    int countNeighbourMines(Location loc) {
-        final Location[] neighbours = {
-                new Location(-1, -1),
-                new Location( 0, -1),
-                new Location( 1, -1),
-                new Location(-1,  0),
-                new Location( 1,  0),
-                new Location(-1,  1),
-                new Location( 0,  1),
-                new Location( 1,  1),
-        };
+    private final Location[] neighbours = {
+            new Location(-1, -1),
+            new Location(0, -1),
+            new Location(1, -1),
+            new Location(-1, 0),
+            new Location(1, 0),
+            new Location(-1, 1),
+            new Location(0, 1),
+            new Location(1, 1),
+    };
 
+    int countNeighbourMines(Location loc) {
         int count = 0;
         for (int i = 0; i < neighbours.length; ++i) {
             GameObject neighbour = getCellContent(loc.Sum(neighbours[i]));
@@ -106,7 +119,8 @@ public class Field extends GameObject implements Displayable {
                 if (cell.content != null)
                     continue;
                 int neighbours = countNeighbourMines(loc);
-                cell.content = new LandMark(neighbours);
+                if (neighbours > 0)
+                    cell.content = new LandMark(neighbours);
             }
         }
     }
@@ -121,6 +135,10 @@ public class Field extends GameObject implements Displayable {
             for (int cy = 0; cy < setup.GetRows(); ++cy) {
                 for (int cx = 0; cx < setup.GetColons(); ++cx) {
                     cells[cx][cy].Display(new Location(cx, cy), g);
+
+                    Flag flag = flags[cx][cy];
+                    if (flag != null)
+                        flag.Display(new Location(cx, cy), g);
                 }
             }
         }
@@ -131,6 +149,35 @@ public class Field extends GameObject implements Displayable {
     @Override
     public void Display(Location location, Graphics g) {
         display.Display(location, g);
+    }
+
+    public void RevealCell(Location loc) {
+        if (notInBounds(loc))
+            return;
+
+        if (getFlag(loc) != null)
+            return;
+
+        if (getCell(loc).revealed)
+            return;
+
+        getCell(loc).Trigger();
+
+        if (cells[loc.x()][loc.y()].content == null)
+            for (int i = 0; i < neighbours.length; ++i) {
+                RevealCell(loc.Sum(neighbours[i]));
+            }
+
+    }
+
+    public void PutFlag(Location loc) {
+        if (getCell(loc).revealed)
+            return;
+        Flag flag = getFlag(loc);
+        if (flag == null)
+            flags[loc.x()][loc.y()] = new Flag();
+        else
+            flags[loc.x()][loc.y()] = null;
     }
 
 }

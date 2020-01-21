@@ -3,10 +3,11 @@ package com.github.mrrobust.minesweeper.gameobjects;
 import com.github.mrrobust.gameframework.Displayable;
 import com.github.mrrobust.gameframework.GameObject;
 import com.github.mrrobust.gameframework.Location;
+import com.github.mrrobust.gameframework.Triggerable;
 
 import java.awt.*;
 
-public class Mine extends GameObject implements Displayable{
+public class Mine extends GameObject implements Displayable, Triggerable{
 
     public Boolean exploded = false;
 
@@ -37,5 +38,10 @@ public class Mine extends GameObject implements Displayable{
     @Override
     public void Display(Location location, Graphics g) {
         display.Display(location, g);
+    }
+
+    @Override
+    public void Trigger() {
+        exploded = true;
     }
 }

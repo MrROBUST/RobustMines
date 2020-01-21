@@ -2,6 +2,7 @@ package com.github.mrrobust.minesweeper;
 
 import com.github.mrrobust.gameframework.Displayable;
 import com.github.mrrobust.gameframework.Game;
+import com.github.mrrobust.gameframework.Location;
 import com.github.mrrobust.minesweeper.gameobjects.*;
 
 import java.util.ArrayList;
@@ -42,8 +43,21 @@ public class MineSweeper extends Game {
 
     }
 
-    @Override
-    public void Restart() {
-        super.Restart();
+    public enum Turn {
+        RevealCell,
+        PutFlag
     }
+
+    public void MakeTurn(Location loc, Turn turn)
+    {
+        switch (turn) {
+            case RevealCell:
+                field.RevealCell(loc);
+                break;
+            case PutFlag:
+                field.PutFlag(loc);
+                break;
+        }
+    }
+
 }

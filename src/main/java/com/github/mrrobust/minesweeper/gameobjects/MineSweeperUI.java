@@ -38,7 +38,7 @@ public class MineSweeperUI extends UserInterface {
         int x = e.getX();
         int y = e.getY();
 
-        Selector selector = ((MineSweeper)game).selector;
+        Selector selector = ((MineSweeper) game).selector;
         selector.setLocation(new Location(
                 x / iconSize,
                 y / iconSize));
@@ -55,10 +55,19 @@ public class MineSweeperUI extends UserInterface {
         int x = e.getX();
         int y = e.getY();
 
-        Selector selector = ((MineSweeper)game).selector;
-        selector.setLocation(new Location(
-                x / iconSize,
-                y / iconSize));
+        Location loc = new Location(x / iconSize, y / iconSize);
+
+        Selector selector = ((MineSweeper) game).selector;
+        selector.setLocation(loc);
+
+        switch (e.getButton()) {
+            case MouseEvent.BUTTON1:
+                ((MineSweeper) game).MakeTurn(loc, MineSweeper.Turn.RevealCell);
+                break;
+            case MouseEvent.BUTTON3:
+                ((MineSweeper) game).MakeTurn(loc, MineSweeper.Turn.PutFlag);
+                break;
+        }
 
         repaint();
 
@@ -69,9 +78,8 @@ public class MineSweeperUI extends UserInterface {
 
         super.OnKeyPressed(e);
 
-        switch (e.getKeyCode())
-        {
-            case KeyEvent.VK_F2 :
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_F2:
                 game.Restart();
                 break;
         }

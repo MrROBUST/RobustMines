@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.swing.*;
 
 public abstract class UserInterface extends JPanel {
@@ -53,8 +54,8 @@ public abstract class UserInterface extends JPanel {
         }
 
         @Override
-        public void mouseClicked(MouseEvent e) {
-            super.mouseClicked(e);
+        public void mousePressed(MouseEvent e) {
+            super.mousePressed(e);
             OnMouseClick(e);
         }
     }
@@ -67,5 +68,6 @@ public abstract class UserInterface extends JPanel {
             super.keyPressed(e);
             OnKeyPressed(e);
         }
+
     }
 }

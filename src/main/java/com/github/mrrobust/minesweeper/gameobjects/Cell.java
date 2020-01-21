@@ -3,13 +3,14 @@ package com.github.mrrobust.minesweeper.gameobjects;
 import com.github.mrrobust.gameframework.Displayable;
 import com.github.mrrobust.gameframework.GameObject;
 import com.github.mrrobust.gameframework.Location;
+import com.github.mrrobust.gameframework.Triggerable;
 
 import java.awt.*;
 
-public class Cell extends GameObject implements Displayable{
+public class Cell extends GameObject implements Displayable, Triggerable {
 
     public GameObject content;
-    public Boolean revealed = true;
+    public Boolean revealed = false;
 
     public Cell() {}
     public Cell(GameObject content) {
@@ -46,5 +47,15 @@ public class Cell extends GameObject implements Displayable{
     @Override
     public void Display(Location location, Graphics g) {
         display.Display(location, g);
+    }
+
+    @Override
+    public void Trigger() {
+        if (!revealed) {
+            revealed = true;
+            if (content != null && content instanceof Triggerable) {
+                ((Triggerable) content).Trigger();
+            }
+        }
     }
 }
