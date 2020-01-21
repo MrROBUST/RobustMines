@@ -12,7 +12,7 @@ public class App extends JFrame {
 
     public App() {
 
-        game = new MineSweeper(16, 16, 40);
+        game = new MineSweeper();
         initUI();
         game.Start();
 

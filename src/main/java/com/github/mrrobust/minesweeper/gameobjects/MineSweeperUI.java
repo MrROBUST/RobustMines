@@ -5,6 +5,7 @@ import com.github.mrrobust.gameframework.UserInterface;
 import com.github.mrrobust.minesweeper.MineSweeper;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class MineSweeperUI extends UserInterface {
@@ -61,6 +62,21 @@ public class MineSweeperUI extends UserInterface {
 
         repaint();
 
+    }
+
+    @Override
+    protected void OnKeyPressed(KeyEvent e) {
+
+        super.OnKeyPressed(e);
+
+        switch (e.getKeyCode())
+        {
+            case KeyEvent.VK_F2 :
+                game.Restart();
+                break;
+        }
+
+        repaint();
     }
 
 }

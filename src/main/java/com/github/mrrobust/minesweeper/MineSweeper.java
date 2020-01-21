@@ -21,12 +21,19 @@ public class MineSweeper extends Game {
     private Field field;
     public Selector selector;
 
-    public MineSweeper(int colons, int rows, int mines) {
+    public MineSweeper() {
 
-        setup = new MineSweeperSetup(colons, rows, mines);
+        setup = new MineSweeperSetup(16, 16, 40);
+        userInterface = new MineSweeperUI(this);
+        Start();
+    }
+
+    @Override
+    public void Start() {
+        super.Start();
+
         field = new Field(setup);
         selector = new Selector();
-        userInterface = new MineSweeperUI(this);
 
         ArrayList<Displayable> displays = new ArrayList<Displayable>();
         displays.add(field);
@@ -35,4 +42,8 @@ public class MineSweeper extends Game {
 
     }
 
+    @Override
+    public void Restart() {
+        super.Restart();
+    }
 }
