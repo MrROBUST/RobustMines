@@ -6,9 +6,13 @@ import com.github.mrrobust.gameframework.Location;
 
 import java.awt.*;
 
-public class MineCounter extends GameObject implements Displayable{
+public class LandMark extends GameObject implements Displayable{
 
     public int count = 0;
+
+    public LandMark(int count) {
+        this.count = count;
+    }
 
     public class MineCounterDisplay implements Displayable {
 

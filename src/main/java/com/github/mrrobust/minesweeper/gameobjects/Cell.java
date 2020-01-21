@@ -11,6 +11,11 @@ public class Cell extends GameObject implements Displayable{
     public GameObject content;
     public Boolean revealed = true;
 
+    public Cell() {}
+    public Cell(GameObject content) {
+        this.content = content;
+    }
+
     public class CellDisplay implements Displayable {
 
         Image image = Displayable.LoadImage("/img/field.png");

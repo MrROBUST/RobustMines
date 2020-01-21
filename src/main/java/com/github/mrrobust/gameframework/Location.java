@@ -18,4 +18,7 @@ public class Location {
         return y;
     }
 
+    public Location Sum(Location offset) {
+        return new Location(x + offset.x(), y + offset.y());
+    }
 }
